@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello World</title>
+	<link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap-theme.css">
+	<link rel="stylesheet" href="css/chessboard-0.3.0.css">
+	<style>
+		.list-group-item.active a {
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Brand</a>
+      <div class="pull-right navbar-text">Welcome <span id="name"></span></div>
+    </div>
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+	
+	<div class="row" id="login">
+		<br>
+		<div class="col-md-4 col-md-offset-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Login</h3>
+				</div>
+				<div class="panel-body">
+					<form id="form-login">
+						<div class="form-group">
+							<input type="text" class="form-control" id="person-name" placeholder="Your name please">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" id="person-country" placeholder="Your Country">
+						</div>
+						<div class="form-group">
+							<button class="pull-right btn btn-primary" type="submit" id="btn-play">Play</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="display:none" id="game-board">
+		<div class="col-md-7"><div id="board"></div>
+		<button id="reset" class="btn btn-primary">Start</button>
+		</div>
+		<div class="col-md-4 col-md-offset-1">
+			<h3>List of connections</h3>
+			<ul class="list-group" id="connection-list">
+				<li class="list-group-item"><a href="machine" class="select-client">Play with Machine (<small>on level 10</small>)</a></li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/js/chessboard-0.3.0.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/notify.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
