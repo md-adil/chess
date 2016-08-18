@@ -53,6 +53,11 @@ function connect(person) {
 		if(newPerson.id != person.id) newClient(newPerson);
 	});
 	socket.on('client_disconnected', removeClient);
+	var broadcastEl = $('#broadcast');
+	socket.on('live-broadcast', function(i, d) {
+		console.log(i);
+		broadcastEl.append(d);
+	});
 	return socket;
 }
 
