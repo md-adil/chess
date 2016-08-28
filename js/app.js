@@ -106,7 +106,6 @@ function renderBoard() {
 		draggable: true,
 		position: 'start',
 		dropOffBoard: 'spapback',
-		sparePieces: true,
 		onDragStart: function() {
 			toggleMoveEvent = false;
 			if(!currentClientId) {
