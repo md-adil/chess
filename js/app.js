@@ -22,7 +22,7 @@ $('#form-login').submit(function(e) {
 });
 
 function connect(person) {
-	var socket = io.connect("http://192.168.0.100:8000");
+	var socket = io.connect("http://192.168.1.32:8000");
 	$('#name').text(person.name);
 	
 	socket.emit('joining-client', person);
