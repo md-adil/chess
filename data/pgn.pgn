@@ -1,0 +1,162 @@
+[Event "WJCC 1-10"]
+[Site "KIIT University"]
+[Date "2016.08.17"]
+[Round "9.1"]
+[White "Maghsoodloo, Parham"]
+[Black "Xiong, Jeffery"]
+[Result "*"]
+[BlackElo "2633"]
+[WhiteElo "2576"]
+[LiveChessVersion "1.4.7"]
+[ECO "A05"]
+1. Nf3 {[%clk 1:30:43]} Nf6 {[%clk 1:30:50]} 2. b3 {[%clk 1:29:06]} g6
+{[%clk 1:30:42]} 3. Bb2 {[%clk 1:28:19]} Bg7 {[%clk 1:31:04]} 4. g3
+{[%clk 1:28:39]} b6 {[%clk 1:31:13]} 5. Bg2 {[%clk 1:23:31]} Bb7 {[%clk 1:31:32]}
+6. O-O {[%clk 1:23:52]} O-O {[%clk 1:31:53]} 7. c4 {[%clk 1:20:34]} c5
+{[%clk 1:32:01]} 8. e3 {[%clk 1:19:51]} d5 {[%clk 1:18:37]} 9. cxd5
+{[%clk 1:16:25]} Qxd5 {[%clk 1:13:36]} 10. Nc3 {[%clk 1:15:48]} Qd7
+{[%clk 1:08:37]} 11. d4 {[%clk 1:13:12]} cxd4 {[%clk 1:05:36]} 12. Qxd4
+{[%clk 1:05:35]} Nc6 {[%clk 0:56:45]} 13. Qh4 {[%clk 1:01:37]} 0-1
+[Event "WJCC 1-10"]
+[Site "KIIT University"]
+[Date "2016.08.17"]
+[Round "9.2"]
+[White "Karthikeyan, Murali"]
+[Black "Nasuta, Grzegorz"]
+[Result "*"]
+[BlackElo "2442"]
+[WhiteElo "2514"]
+[LiveChessVersion "1.4.7"]
+[ECO "B90"]
+1. e4 {[%clk 1:30:46]} c5 {[%clk 1:30:53]} 2. Nf3 {[%clk 1:31:09]} d6
+{[%clk 1:31:19]} 3. d4 {[%clk 1:31:33]} cxd4 {[%clk 1:31:44]} 4. Nxd4
+{[%clk 1:31:54]} Nf6 {[%clk 1:31:50]} 5. Nc3 {[%clk 1:32:09]} a6 {[%clk 1:32:15]}
+6. h3 {[%clk 1:32:20]} e6 {[%clk 1:32:03]} 7. g4 {[%clk 1:32:29]} Nfd7
+{[%clk 1:32:25]} 8. Bg2 {[%clk 1:30:48]} Be7 {[%clk 1:25:45]} 9. Be3
+{[%clk 1:28:49]} Nc6 {[%clk 1:23:30]} 10. Qe2 {[%clk 1:18:40]} O-O
+{[%clk 1:20:18]} 11. O-O-O {[%clk 1:14:37]} Nxd4 {[%clk 0:54:20]} 12. Bxd4
+{[%clk 1:12:54]} Qa5 {[%clk 0:54:19]} *
+[Event "WJCC 1-10"]
+[Site "KIIT University"]
+[Date "2016.08.17"]
+[Round "9.3"]
+[White "Xu, Yinglun"]
+[Black "Svane, Rasmus"]
+[Result "*"]
+[BlackElo "2546"]
+[WhiteElo "2516"]
+[LiveChessVersion "1.4.7"]
+[ECO "D45"]
+1. d4 {[%clk 1:30:55]} Nf6 {[%clk 1:30:55]} 2. Nf3 {[%clk 1:31:19]} d5
+{[%clk 1:31:06]} 3. c4 {[%clk 1:31:33]} e6 {[%clk 1:31:30]} 4. Nc3
+{[%clk 1:31:40]} c6 {[%clk 1:31:54]} 5. e3 {[%clk 1:31:37]} Nbd7 {[%clk 1:32:20]}
+6. Qc2 {[%clk 1:31:22]} Bd6 {[%clk 1:32:45]} 7. Bd3 {[%clk 1:31:37]} O-O
+{[%clk 1:33:05]} 8. O-O {[%clk 1:32:01]} e5 {[%clk 1:32:52]} 9. cxd5
+{[%clk 1:30:34]} cxd5 {[%clk 1:33:18]} 10. e4 {[%clk 1:29:06]} exd4
+{[%clk 1:33:43]} 11. Nxd5 {[%clk 1:29:32]} Nxd5 {[%clk 1:34:07]} 12. exd5
+{[%clk 1:29:58]} h6 {[%clk 1:34:23]} 13. Nxd4 {[%clk 1:28:24]} Qh4
+{[%clk 1:34:43]} 14. Nf3 {[%clk 1:28:49]} Qh5 {[%clk 1:35:06]} 15. Bh7+
+{[%clk 1:27:26]} Kh8 {[%clk 1:35:26]} 16. Qf5 {[%clk 1:27:52]} Qxf5
+{[%clk 1:35:51]} 17. Bxf5 {[%clk 1:28:18]} Nf6 {[%clk 1:36:08]} 18. Bc2
+{[%clk 1:26:40]} b6 {[%clk 1:33:54]} 19. Ba4 {[%clk 0:53:10]} Bb7
+{[%clk 1:32:34]} 20. Bc6 {[%clk 0:53:35]} Bxc6 {[%clk 1:32:14]} 21. dxc6
+{[%clk 0:53:59]} Rac8 {[%clk 1:30:24]} 22. Be3 {[%clk 0:53:27]} Rxc6
+{[%clk 1:29:04]} 23. Rac1 {[%clk 0:53:44]} Rxc1 {[%clk 1:13:42]} 24. Rxc1
+{[%clk 0:54:09]} Rd8 {[%clk 1:12:04]} 25. g3 {[%clk 0:52:47]} *
+[Event "WJCC 1-10"]
+[Site "KIIT University"]
+[Date "2016.08.17"]
+[Round "9.4"]
+[White "Artemiev, Vladislav"]
+[Black "Beukema, Stefan"]
+[Result "*"]
+[BlackElo "2380"]
+[WhiteElo "2665"]
+[LiveChessVersion "1.4.7"]
+[ECO "A81"]
+1. d4 f5 2. g3 Nf6 3. Bg2 g6 4. c3 Bg7 5. Qb3 d5 6. c4 e6 7. Nf3 Nbd7 8. Bg5 c6
+9. O-O O-O 10. e3 *
+[Event "WJCC 1-10"]
+[Site "KIIT University"]
+[Date "2016.08.17"]
+[Round "9.5"]
+[White "Menezes, Christoph"]
+[Black "Ivekovic, Bozidar"]
+[Result "*"]
+[BlackElo "2351"]
+[WhiteElo "2408"]
+[LiveChessVersion "1.4.7"]
+[ECO "E00"]
+1. d4 {[%clk 1:30:55]} Nf6 {[%clk 1:30:51]} 2. c4 {[%clk 1:31:14]} e6
+{[%clk 1:31:15]} 3. Nc3 {[%clk 1:31:31]} c5 {[%clk 1:31:12]} 4. d5
+{[%clk 1:31:38]} d6 {[%clk 1:31:33]} 5. Nf3 {[%clk 1:31:10]} g6 {[%clk 1:29:44]}
+6. h3 {[%clk 1:28:34]} Bg7 {[%clk 1:28:04]} 7. e4 {[%clk 1:26:58]} O-O
+{[%clk 1:28:00]} 8. Be2 {[%clk 1:26:38]} exd5 {[%clk 1:24:11]} 9. cxd5
+{[%clk 1:25:22]} Re8 {[%clk 1:24:30]} 10. Nd2 {[%clk 1:25:37]} Na6
+{[%clk 1:22:49]} 11. O-O {[%clk 1:25:33]} Nc7 {[%clk 1:23:13]} 12. Re1
+{[%clk 1:19:45]} Bd7 {[%clk 1:09:37]} 13. a4 {[%clk 1:17:28]} a6 {[%clk 1:09:50]}
+14. Bf3 {[%clk 0:57:00]} *
+[Event "WJCC 1-10"]
+[Site "KIIT University"]
+[Date "2016.08.17"]
+[Round "9.6"]
+[White "Aravindh, Chithambaram Vr."]
+[Black "Arjun, Kalyan"]
+[Result "*"]
+[BlackElo "2292"]
+[WhiteElo "2543"]
+[LiveChessVersion "1.4.7"]
+[ECO "B81"]
+1. e4 {[%clk 1:30:57]} c5 {[%clk 1:30:52]} 2. Nf3 {[%clk 1:31:20]} d6
+{[%clk 1:31:17]} 3. d4 {[%clk 1:30:27]} cxd4 {[%clk 1:31:41]} 4. Nxd4 Nf6
+{[%clk 1:32:03]} 5. Nc3 {[%clk 1:31:18]} e6 {[%clk 1:32:28]} 6. g4
+{[%clk 1:31:25]} h6 {[%clk 1:32:48]} 7. h4 {[%clk 1:31:48]} Nc6 {[%clk 1:33:09]}
+8. g5 {[%clk 1:30:26]} hxg5 {[%clk 1:33:26]} 9. Bxg5 {[%clk 1:30:50]} Be7
+{[%clk 1:32:31]} 10. Qd2 {[%clk 1:30:10]} Qb6 {[%clk 1:32:43]} 11. Nb3
+{[%clk 1:29:48]} a6 {[%clk 1:32:40]} 12. O-O-O {[%clk 1:29:30]} Bd7
+{[%clk 1:32:57]} 13. Be2 {[%clk 1:20:28]} Qc7 {[%clk 1:32:33]} 14. h5
+{[%clk 1:18:09]} O-O-O {[%clk 1:30:12]} 15. Kb1 {[%clk 1:15:18]} Kb8
+{[%clk 1:29:02]} 16. Be3 {[%clk 1:07:57]} Bc8 {[%clk 1:14:06]} 17. f4
+{[%clk 1:06:38]} b5 {[%clk 1:09:38]} 18. Bf3 {[%clk 0:59:15]} Bb7
+{[%clk 1:08:10]} *
+[Event "WJCC 1-10"]
+[Site "KIIT University"]
+[Date "2016.08.17"]
+[Round "9.7"]
+[White "Lorparizangeneh, Shahin"]
+[Black "Henriquez Villagra, Cristobal"]
+[Result "*"]
+[BlackElo "2520"]
+[WhiteElo "2478"]
+[LiveChessVersion "1.4.7"]
+[ECO "E10"]
+1. d4 {[%clk 1:30:53]} Nf6 {[%clk 1:30:41]} 2. c4 {[%clk 1:31:17]} e6
+{[%clk 1:30:56]} 3. Nf3 {[%clk 1:31:31]} d5 {[%clk 1:29:38]} 4. g3
+{[%clk 1:31:35]} c6 {[%clk 1:27:54]} 5. Bg2 {[%clk 1:31:18]} Nbd7
+{[%clk 1:26:17]} 6. O-O {[%clk 1:31:31]} dxc4 {[%clk 1:20:06]} 7. a4
+{[%clk 1:19:53]} a5 {[%clk 1:10:38]} 8. Nc3 {[%clk 1:12:23]} Bb4 {[%clk 1:06:48]}
+9. Qc2 {[%clk 1:11:15]} Qe7 {[%clk 1:06:38]} 10. e4 {[%clk 0:58:46]} h6
+{[%clk 1:05:58]} 11. Rd1 {[%clk 0:49:55]} *
+[Event "WJCC 1-10"]
+[Site "KIIT University"]
+[Date "2016.08.17"]
+[Round "9.8"]
+[White "Sunilduth Lyna, Narayanan"]
+[Black "Xu, Yi"]
+[Result "*"]
+[BlackElo "2371"]
+[WhiteElo "2515"]
+[LiveChessVersion "1.4.7"]
+[ECO "D38"]
+1. d4 {[%clk 1:30:56]} Nf6 {[%clk 1:30:57]} 2. Nf3 {[%clk 1:31:23]} d5
+{[%clk 1:31:23]} 3. c4 {[%clk 1:31:50]} e6 {[%clk 1:31:44]} 4. Nc3
+{[%clk 1:32:16]} Bb4 {[%clk 1:32:10]} 5. cxd5 {[%clk 1:32:44]} exd5
+{[%clk 1:32:32]} 6. Bf4 {[%clk 1:33:11]} O-O {[%clk 1:31:52]} 7. e3
+{[%clk 1:33:27]} c5 {[%clk 1:25:05]} 8. dxc5 {[%clk 1:33:53]} Nbd7
+{[%clk 1:21:20]} 9. Rc1 {[%clk 1:33:51]} Nxc5 {[%clk 1:18:26]} 10. Be2
+{[%clk 1:32:30]} Nfe4 {[%clk 1:12:38]} 11. Be5 {[%clk 1:32:28]} Nxc3
+{[%clk 1:07:30]} 12. Bxc3 {[%clk 1:32:53]} Bxc3+ {[%clk 1:07:53]} 13. Rxc3
+{[%clk 1:33:19]} Ne4 {[%clk 1:08:12]} 14. Ra3 {[%clk 1:33:46]} Qb6
+{[%clk 1:07:10]} 15. Qd4 {[%clk 1:26:46]} Bg4 {[%clk 1:05:11]} 16. O-O
+{[%clk 1:06:31]} Bxf3 {[%clk 0:59:20]} 17. Bxf3 {[%clk 0:58:00]} Qxd4
+{[%clk 0:59:36]} 18. exd4 {[%clk 0:58:26]} *
