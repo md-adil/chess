@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello World</title>
+	<link rel="stylesheet" href="/css/main.css">
+	<style>
+		.float-widget {
+			position: absolute;
+			bottom: 50px;
+			right: 50px;
+		}
+		.float-widget .btn.btn-action {
+			border-radius: 90%;
+			font-size: 21px;
+			padding: 10px 15px;
+			/*font-weight: bold;*/
+		    line-height: 1;
+		    color: #FFF;
+		    /*text-shadow: 0 1px 0 #002723;*/
+		}
+		.widget-window {
+			position: absolute;
+			top: 100px;
+			right: 100px;
+			width: 300px;
+		}
+		.widget-window.widget-play-machine {
+			right: 250px;
+			top: 150px;
+		}
+		.panel-menus {
+			position: absolute;
+			bottom: 33px;
+			right: 0px;
+		}
+		.panel-menus a {
+			width: 200px;
+		}
+
+	</style>
+</head>
+<body>
+
+<div class="float-widget">
+	<div class="panel panel-menus" id="primary-float-menu" style="display:none">
+		<div class="list-group">
+			<a href="#" data-target="#ww-players-online" data-toggle="widget-window" class="list-group-item">Players Online</a>
+			<a href="#" data-target="#ww-play-machine" data-toggle="widget-window" class="list-group-item">Play with machine</a>
+			<a href="#" data-target="#players-online" data-toggle="widget-window" class="list-group-item">Brodcast</a>
+			<a href="#" data-target="#players-online" data-toggle="widget-window" class="list-group-item">Predict</a>
+			<a href="#" data-target="#players-online" data-toggle="widget-window" class="list-group-item">Statistics</a>
+		</div>
+	</div>
+	<a href="javascript:void(0)" data-toggle="float-widget" data-target="#primary-float-menu" class="btn-action btn btn-primary btn-raised">&plus;</a>
+</div>
+
+<div class="panel panel-default ww draggable resizable closable minizable" id="ww-100">
+	<div class="panel-heading">
+		<h3 class="panel-title">Players Online
+		<!-- <a href="" class="close" data-action="minimize" style="margin-right:5px">&minus;</a> -->
+		</h3>
+	</div>
+	<div class="panel-body">
+		<input type="text" class="form-control" placeholder="Search for any players by name">
+	</div>
+	<div class="list-group">
+		<a href="" class="list-group-item">Apple</a>
+		<a href="" class="list-group-item">Mango</a>
+		<a href="" class="list-group-item">Orange</a>
+		<a href="" class="list-group-item">Pineapple</a>
+	</div>
+</div>
+
+<div class="panel panel-default ww closable resizable draggable" id="ww-101">
+	<div class="panel-heading">
+		<h3 class="panel-title">Play with machine
+		</h3>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-9">
+				<input type="text" min="10" id="c-100">
+			</div>
+			<div class="col-md-3">
+				<input type="text" readonly class="form-control">
+			</div>
+			<div class="col-md-12">
+				<button class="btn btn-default pull-right">Play now</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <script src="/socket.io/socket.io.js"></script> -->
+<script src="/js/main.js"></script>
+</body>
+</html>
