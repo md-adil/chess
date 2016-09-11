@@ -1,3 +1,6 @@
-@import 'node_modules/bootstrap-sass/assets/stylesheets/_bootstrap';
+// @import 'node_modules/bootstrap-sass/assets/stylesheets/_bootstrap';
+@import 'node_modules/jquery-ui-dist/jquery-ui';
 @import 'vendor/material';
+@import 'node_modules/chessboardjs/www/css/chessboard';
 @import 'widget-window';
+@import 'widget-flaot';

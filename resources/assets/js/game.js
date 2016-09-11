@@ -97,7 +97,7 @@ function on_mouseoverSquare(square, piece) {
 }
 
 
-function renderBoard() {
+export function renderBoard() {
 	boardEl.show();
 	on_BoardInitialize()
 	board = ChessBoard('board', {
@@ -112,7 +112,6 @@ function renderBoard() {
 	});
 	return board;
 }
-renderBoard();
 
 $('#reset').click(function() {
 	board.position('start');
@@ -164,3 +163,26 @@ function gameStatus(g) {
 function stToch(str) {
 	return str.substr(0,2) + '-' + str.substr(2);
 }
+
+// Exposed functions.
+export function move() {
+
+}
+
+export function fen() {
+
+}
+
+export function orientation() {
+
+}
+
+export function start() {
+
+}
+
+export function flip() {
+
+}
+
+

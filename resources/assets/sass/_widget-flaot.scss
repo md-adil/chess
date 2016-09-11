@@ -1,0 +1,32 @@
+.float-widget {
+	position: absolute;
+	bottom: 50px;
+	right: 50px;
+}
+.float-widget .btn.btn-action {
+	border-radius: 90%;
+	font-size: 21px;
+	padding: 10px 15px;
+	/*font-weight: bold;*/
+    line-height: 1;
+    color: #FFF;
+    /*text-shadow: 0 1px 0 #002723;*/
+}
+.widget-window {
+	position: absolute;
+	top: 100px;
+	right: 100px;
+	width: 300px;
+}
+.widget-window.widget-play-machine {
+	right: 250px;
+	top: 150px;
+}
+.panel-menus {
+	position: absolute;
+	bottom: 33px;
+	right: 0px;
+}
+.panel-menus a {
+	width: 200px;
+}

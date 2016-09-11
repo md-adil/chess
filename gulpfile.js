@@ -7,7 +7,11 @@ elixir.config.js.browserify.transformers.push({
     	presets: ["es2015"]
     }
 });
-
+/*
+elixir.config.js.browserify.transformers.push({
+    name: 'deamdify'
+});
+*/
 elixir.config.js.browserify.options.debug = true;
 
 elixir(function(mix) {

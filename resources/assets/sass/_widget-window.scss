@@ -7,3 +7,10 @@
 	width: 300px;
 	position: absolute;
 }
+.draggable.panel .panel-title {
+	cursor: default;
+}
+
+.panel.resizable {
+	overflow: hidden;
+}

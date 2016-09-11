@@ -38,3 +38,15 @@ _.each(setting('ww'), function(set, id) {
 		$(`#${id}.ww`).css(set.position);
 	}
 });
+
+$('[data-toggle="float-widget"]').click(function() {
+	var el = $(this).data('target');
+	$(el).slideToggle();
+});
+
+$('[data-toggle="widget-window"]').click(function() {
+	var el = $(this).data('target');
+	$(el).fadeIn(100);
+});
+
+// $('.ww.scrollable').scrollbar();

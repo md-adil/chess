@@ -30,25 +30,6 @@ function on_clientLeave(io, socket) {
 	console.log("Disconnected " + socket.id);
 }
 
-function on_clientJoin(io, socket, person) {
-	socket.emit('client-joined', {id: socket.id, players: players});
-	players[socket.id] = person;
-	person.id = socket.id;
-	// Fire events to all when  new client
-	io.sockets.emit('new_client', person);
-}
-
-function on_pieceMove(io, socket, data) {
-	if(data.personId == 'machine') {
-		getMachine(socket.id, socket, data)
-			.stdin.write("position fen " + data.fen + "\ngo depth 10\n");
-	} else {
-		var opponent = io.sockets.connected[data.personId];
-		if(opponent) {
-			opponent.emit('moved', data);
-		}
-	}
-}
 
 function getMachine(id, socket, data) {
 	if(!machines[id]) {
@@ -71,26 +52,4 @@ function bindDataOnMachine(machine, socket, data) {
 	});
 }
 
-function on_clientConnect(io, socket) {
-	console.log('Socket id ' + socket.id);
-	// When disconnecting client.
-	socket.on('disconnect', function() {
-		on_clientLeave(io, socket)
-	});
 
-	// When joining client.
-	socket.on('joining-client', function(person) {
-		on_clientJoin(io, socket, person);
-	});
-
-	socket.on('moving', function(data) {
-		on_pieceMove(io, socket, data);
-	});
-
-	socket.on('selecting-client', function(person) {
-		var s = io.sockets.connected[person.clientId];
-		if(s) {
-			s.emit('selected-client', person);
-		}
-	});
-}
