@@ -44,7 +44,7 @@ function bindConnectionEvents(io, socket) {
 		}
 	});
 
-	socket.on('client/request/reject', function(req.id) {
+	socket.on('client/request/reject', function(req) {
 		var s = io.sockets.connected[req.client_id];
 		if(s) {
 			s.emit('server/request/reject', req);

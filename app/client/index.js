@@ -34,7 +34,7 @@ Client.prototype = {
 
 	connectMachine(depth) {
 		return this.connectedTo = new Machine(depth);
-	}
+	},
 
 	connect(con, depth) {
 		this.connectedTo = Client.find(con);
