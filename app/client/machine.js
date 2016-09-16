@@ -6,6 +6,7 @@ function Machine(depth) {
 	this._machine = spawn(machinePath);
 	bindEvents(this);
 }
+module.exports = Machine;
 
 Machine.prototype = {
 	setDepth(depth) {
