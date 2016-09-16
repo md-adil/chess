@@ -7,6 +7,7 @@
 		.list-group-item.active a {
 			color: #fff;
 		}
+		
 	</style>
 </head>
 <body>
@@ -34,38 +35,33 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" style="display:none" id="game-board">
-		<div class="col-md-7"><div id="board"></div>
-			<br>
-			<div class="board-controls">
-				<button id="reset" class="btn btn-primary">Restart</button>
-				<button id="flip-board" class="btn btn-primary">Flip</button>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12" id="broadcast">
-			
-		</div>
-	</div>
 </div>
 
-<div class="panel panel-default ww draggable resizable closable minizable scrollable" id="ww-100">
+<!-- Window Widgets -->
+
+<!-- Online available clients -->
+<div class="panel panel-default window draggable closable minizable" id="w-100">
 	<div class="panel-heading">
 		<h3 class="panel-title">Players Online
 		<!-- <a href="" class="close" data-action="minimize" style="margin-right:5px">&minus;</a> -->
 		</h3>
 	</div>
-	<div class="panel-body">
-		<div class="form-group" style="margin-top:5px;">
-			<input type="text" class="form-control" placeholder="Search for any players by name">
+	<div class="resizable">
+		<div class="scrollable scrollbar-inner">
+			<div class="panel-body">
+				<div class="form-group" style="margin-top:5px;">
+					<input type="text" class="form-control" placeholder="Search for any players by name">
+				</div>
+			</div>
+			<div class="list-group" id="connection-list">
+				<li class="list-group-item">lorem-1</li>
+			</div>
 		</div>
-	</div>
-	<div class="list-group" id="connection-lis">
 	</div>
 </div>
 
-<div class="panel panel-default ww closable draggable" id="ww-101">
+<!-- Engine -->
+<div class="panel panel-default window closable draggable" id="w-101">
 	<div class="panel-heading">
 		<h3 class="panel-title">Play with machine
 		</h3>
@@ -85,20 +81,55 @@
 		</div>
 	</div>
 </div>
+
+<div class="panel panel-default window closable draggable risizable" id="w-102">
+	<div class="panel-heading">
+		<h3 class="panel-title">Broadcast</h3>
+	</div>
+</div>
+<div class="panel panel-default window closable draggable risizable" id="w-103">
+	<div class="panel-heading">
+		<h3 class="panel-title">Statistics</h3>
+	</div>
+</div>
+
+<div class="panel panel-default window closable draggable risizable" id="w-104" style="width: 350px;">
+	<div class="panel-heading">
+		<h3 class="panel-title">Customize</h3>
+	</div>
+	<div class="panel-body">
+		<div class="col-md-3">Zoom</div>
+		<div id="c-102" class="slider col-md-9"></div>
+	</div>		
+</div>
+
+<div class="panel panel-default window closable draggable risizable" id="w-105">
+	<div class="panel-heading">
+		<h3 class="panel-title">Analysis</h3>
+	</div>
+</div>
+
+<div id="board-container" class="board-container">
+	<div id="board"></div>
+</div>
+
 <div class="float-widget">
 	<div class="panel panel-menus" id="primary-float-menu" style="display:none">
 		<div class="list-group">
-			<a href="#" data-target="#ww-100" data-toggle="widget-window" class="list-group-item">Players Online</a>
-			<a href="#" data-target="#ww-101" data-toggle="widget-window" class="list-group-item">Play with machine</a>
-			<a href="#" data-target="#ww-102" data-toggle="widget-window" class="list-group-item">Brodcast</a>
-			<a href="#" data-target="#ww-103" data-toggle="widget-window" class="list-group-item">Predict</a>
-			<a href="#" data-target="#ww-104" data-toggle="widget-window" class="list-group-item">Statistics</a>
+			<a href="#" data-target="#w-100" data-toggle="window" class="list-group-item">Players Online</a>
+			<a href="#" data-target="#w-101" data-toggle="window" class="list-group-item">Play with machine</a>
+			<a href="#" data-target="#w-102" data-toggle="window" class="list-group-item">Brodcast</a>
+			<a href="#" data-target="#w-105" data-toggle="window" class="list-group-item">Analysis</a>
+			<a href="#" data-target="#w-103" data-toggle="window" class="list-group-item">Statistics</a>
+			<a href="#" data-target="#w-104" data-toggle="window" class="list-group-item">Customize</a>
 		</div>
 	</div>
 	<a href="javascript:void(0)" data-toggle="float-widget" data-target="#primary-float-menu" class="btn-action btn btn-primary btn-raised">&plus;</a>
 </div>
+
+<div class="overlay"></div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/main.js"></script>
-
 </body>
 </html>

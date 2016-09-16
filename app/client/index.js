@@ -5,15 +5,18 @@ var EventEmitter = require('events');
 var util = require('util');
 
 function Client(id) {
+	EventEmitter.EventEmitter.call(this);
 	if(List[id]) {
 		throw new TypeError('Player already exists');
 	}
 	List[id] = this;
-	this.id = id;
-	this.connectedTo = null;
+	this._id = id;
+	this._connected = null;
 }
 
 Client.prototype = {
+	constructor: Client,
+
 	setting(key, val) {
 		if(key === undefined) return this._settings;
 		if(val === undefined) {
@@ -25,54 +28,69 @@ Client.prototype = {
 	destroy() {
 		if(!this.isConnected()) return false;
 		if(this.isMachine()) {
-			this.connectedTo.destroy();
+			this._connected.destroy();
 		} else {
-			this.connectedTo.emit('destroyed', this);
+			this.emit('destroyed', this);
 		}
 		return true;
 	},
 
 	connectMachine(depth) {
-		return this.connectedTo = new Machine(depth);
-	}
+		return this._connected = new Machine(depth);
+	},
 
-	connect(con, depth) {
-		this.connectedTo = Client.find(con);
-		this.connectedTo.connectedTo = this;
-		return this.connectedTo;
+	connect(con) {
+		this._connected = Client.find(con);
+		this._connected._connected = this;
+		return this._connected;
 	},
 	
-	move(pos, emit) {
-		if(!this.isConnected()) return false;
-		if(this.isMachine()) {
-			var that = this;
-			this.connectedTo.fen(pos);
-			this.connectedTo.on('moved', function() {
-				that.emit('moved');
-			})
+	move(pos) {
+		console.log('moving');
+		if(this.isMachine) {
+			this._connected.move(pos);
 		} else {
-			this.connectedTo.move(pos, true);
-			if(emit) {
-				this.emit('moved', pos);
-			}
+			this.emit('moved');
 		}
-		return true;
+		return this;
+	},
+
+	setHeader(header) {
+		this._headers = header;
+	},
+
+	getHeader() {
+		return this._headers;
 	},
 
 	isMachine() {
-		return this.connectedTo instanceof Machine;
+		return this._connected instanceof Machine;
 	},
 
 	isConnected() {
-		return this.connectedTo ? true : false;
-	}
+		return this._connected ? true : false;
+	},
 
+	socket() {
+		return this.constructor._io.sockets.connected[this._id];
+	},
+
+	connected() {
+		return this._connected;
+	}
 }
 
 util.inherits(Client, EventEmitter);
 
 Client.find = function(id) {
 	return List[id];
+}
+
+Client.io = function(io) {
+	if(io) {
+		Client._io = io;
+	}
+	return Client._io;
 }
 
 Client.exists = function(id) {

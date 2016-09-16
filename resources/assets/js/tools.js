@@ -1,23 +1,20 @@
 import _ from 'lodash'
+import $ from 'jquery';
 require('jquery.cookie');
 
+var _settings = JSON.parse(
+	$.cookie('settings') || "{}"
+);
+
 export function setting(key, val) {
-	var settings = getSettingsCookie();
-	if(val !== undefined) {
-		_.set(settings, key, val);
-		setSettingsCookie(settings);
-	} else {
-		return _.get(settings, key);
-	}
+	if(key == undefined) return _settings;
+	if(val == undefined) return _.get(_settings, key);
+	_.set(_settings, key, val);
+	return _settings;
 }
 
-function getSettingsCookie() {
-	return JSON.parse(
-		$.cookie('settings') || "{}"
-	);
-}
-
-function setSettingsCookie(settings) {
-	console.log(settings);
-	$.cookie('settings', JSON.stringify(settings), { expires: 102400, path: '/' });
-}
+$( window ).on('beforeunload', function() {
+	$.cookie('settings', JSON.stringify(_settings), {
+		expires: 1122
+	});
+});

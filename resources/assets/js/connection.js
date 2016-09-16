@@ -1,16 +1,24 @@
-function connect() {
-	var socket = io.connect("http://192.168.1.32:3000");
+import $ from 'jquery';
+import {renderBoard} from './game';
+
+function connect(person) {
+	var socket = io.connect("http://localhost:3000");
 	bindConnections(socket);
+	renderBoard();
 	return socket;
 }
 
 function bindConnections(socket) {
-	socket.on('server/client/joining', joinClient);
-	socket.on('server/client/joined', joinedClient);
 	socket.on('server/client/new', newClient);
+	socket.on('server/client/joining', joiningClient);
+	socket.on('server/client/joined', joinedClient);
 	socket.on('server/client/disconnect', disconnectClient);
+
 }
 
+function newClient() {
+
+}
 
 function joiningClient() {
 
@@ -20,14 +28,12 @@ function joinedClient() {
 
 }
 
-function newClient() {
-
-}
 
 function disconnectClient() {
 
 }
 
+function nothing() {
 	$('#name').text(person.name);
 	
 	socket.emit('joining-client', person);
@@ -71,4 +77,5 @@ function disconnectClient() {
 	return socket;
 }
 
-export default connect();
+
+export default connect;

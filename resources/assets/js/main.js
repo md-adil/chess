@@ -5,10 +5,13 @@ require('jquery-ui-dist/jquery-ui');
 require('bootstrap-material-design');
 require('jquery.cookie');
 var noUiSlider = require('nouislider');
+
+require('./jquery.scrollbar');
 require('./widget-window');
 
 import './app';
 import './notify';
+import './user-account';
 // import './ripples';
 
 

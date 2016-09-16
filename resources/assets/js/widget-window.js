@@ -1,12 +1,16 @@
 import {setting} from './tools';
 import _ from 'lodash';
+import $ from 'jquery';
 
-$('.ww.resizable').resizable({
+$('.window > .resizable').resizable({
 	autoHide: true,
 	minWidth: 200,
+	stop: on_resizeStop
 });
 
-$('.ww.draggable').draggable({
+$('.window .scrollable').scrollbar();
+
+$('.window.draggable').draggable({
 	handle: ".panel-heading",
 	stop: on_dragStop
 });
@@ -16,7 +20,7 @@ var btnClose = $('<a />', {
 	class:'close'
 }).click(function(e) {
 	e.preventDefault();
-	$(this).parents('.ww').fadeOut(100);
+	$(this).parents('.window').fadeOut(100);
 });
 
 var btnMinimize = $('<a />', {
@@ -26,16 +30,26 @@ var btnMinimize = $('<a />', {
 
 function on_dragStop(e, ui) {
 	var id = $(this).attr('id');
-	setting(`ww.${id}.position`, ui.position);
+	setting(`window.${id}.position`, ui.position);
 }
 
-$('.ww.closable').find('.panel-title').append(btnClose);
-$('.ww.minizable').find('.panel-title').append(btnMinimize);
+function on_resizeStop(e, ui) {
+	var id = $(this).parents('.window').attr('id');
+	setting(`window.${id}.size`, ui.size);	
+}
+
+$('.window.closable').find('.panel-title').append(btnClose);
+$('.window.minizable').find('.panel-title').append(btnMinimize);
 
 // Adding default position to widget windows
-_.each(setting('ww'), function(set, id) {
+_.each(setting('window'), function(set, id) {
+	var $el = $(`#${id}.window`);
+	if(!$el.length) return;
 	if(set.position) {
-		$(`#${id}.ww`).css(set.position);
+		$el.css(set.position);
+	}
+	if(set.size) {
+		$el.children('.resizable').css(set.size);
 	}
 });
 
@@ -44,9 +58,7 @@ $('[data-toggle="float-widget"]').click(function() {
 	$(el).slideToggle();
 });
 
-$('[data-toggle="widget-window"]').click(function() {
+$('[data-toggle="window"]').click(function() {
 	var el = $(this).data('target');
 	$(el).fadeIn(100);
 });
-
-// $('.ww.scrollable').scrollbar();

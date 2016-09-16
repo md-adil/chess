@@ -2,6 +2,8 @@ var Client = require('./client');
 
 module.exports = function(server) {
 	var io = require('socket.io')(server);
+	Client.io(io);
+	
 	io.on('connection', function(socket) {
 		bindConnectionEvents(io, socket);
 	});
@@ -10,7 +12,6 @@ module.exports = function(server) {
 function bindConnectionEvents(io, socket) {
 	console.log('Client Connected: ' + socket.id);
 	var client = new Client(socket.id);
-	bindClientEvents(client, io, socket);
 	socket.on('disconnect', function() {
 		client.destroy();
 		delete client;
@@ -34,17 +35,19 @@ function bindConnectionEvents(io, socket) {
 
 	socket.on('client/connect/machine', function(req) {
 		var machine = client.connectMachine(req.depth);
+		bindClientEvents(client, io, socket);
 	});
 
 	socket.on('client/request/accept', function(req) {
-		var newClient = connect.connect(req.client_id);
 		var s = io.sockets.connected[req.client_id];
 		if(s) {
+			var newClient = client.connect(req.client_id);
 			s.emit('server/request/accepted', req.id);
+			bindClientEvents(client, io, socket);
 		}
 	});
 
-	socket.on('client/request/reject', function(req.id) {
+	socket.on('client/request/reject', function(req) {
 		var s = io.sockets.connected[req.client_id];
 		if(s) {
 			s.emit('server/request/reject', req);
@@ -60,12 +63,16 @@ function on_clientJoin(io, socket, req) {
 }
 
 function bindClientEvents(client, io, socket) {
-	client.on('moved', function(pos) {
-		socket.emit('server/position/move', pos);
+	client.connected().on('moved', function(pos) {
+		client.socket().emit('server/position/move', pos);
+	});
+
+	client.socket().on('client/position/move', function(pos) {
+		client.move(pos);
 	});
 
 	client.on('destroy', function(c) {
-		socket.emit('server/client/active/destroyed', c.id);
-		io.sockets.emit('server/client/destroyed', c.id);
+		client.socket().emit('server/client/active/destroyed', c.id);
+		Client.io().sockets.emit('server/client/destroyed', c.id);
 	});
 }

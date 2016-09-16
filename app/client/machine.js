@@ -1,7 +1,7 @@
 var spawn = require('child_process').spawn;
 var machinePath = __dirname + '/stockfish';
 
-module.exports = function Machine(depth) {
+function Machine(depth) {
 	this._depth = depth;
 	this._machine = spawn(machinePath);
 	bindEvents(this);
@@ -12,8 +12,8 @@ Machine.prototype = {
 		this._depth = depth;
 	},
 
-	move(move) {
-		this._machine
+	move(pos) {
+		runMachine(this, `position move ${pos}`);
 	},
 
 	fen(fen) {
@@ -39,10 +39,12 @@ function bindEvents(obj) {
 		if(moves) {
 			obj.emit('moved', moves);
 		}
-	}
+	});
 }
 
 function bestMove() {
 	var res = String(out);
 	return res.match(/bestmove (\w+)/);
 }
+
+module.exports = Machine;

@@ -1,12 +1,29 @@
 import $ from 'jquery';
+window.$ = $;
 import chess from 'chess.js';
+import ChessBoard from 'chessboardjs';
+var noUiSlider = require('nouislider');
+import {setting} from './tools';
 
-var board, game, boardEl;
-boardEl = $('#game-board');
+var boardContainer = $('#board-container');
+
+export var board;
+export var game;
+
 game = new chess.Chess();
+board = ChessBoard('board', {
+	draggable: true,
+	position: 'start',
+	dropOffBoard: 'spapback',
+	onDrop: on_Drop,
+	onDragStart: on_dragStart,
+	onMouseoverSquare: on_mouseoverSquare,
+	onMouseoutSquare: on_mouseoutSquare,
+		onSnapEnd: on_snapEnd
+});
 
 function myTurn(piece) {
-	return piece[0] === turn;
+	// return piece[0] === turn;
 }
 
 function removeGreySquares() {
@@ -100,16 +117,7 @@ function on_mouseoverSquare(square, piece) {
 export function renderBoard() {
 	boardEl.show();
 	on_BoardInitialize()
-	board = ChessBoard('board', {
-		draggable: true,
-		position: 'start',
-		dropOffBoard: 'spapback',
-		onDrop: on_Drop,
-		onDragStart: on_dragStart,
-		onMouseoverSquare: on_mouseoverSquare,
-		onMouseoutSquare: on_mouseoutSquare,
-  		onSnapEnd: on_snapEnd
-	});
+	
 	return board;
 }
 
@@ -158,19 +166,19 @@ function gameStatus(g) {
 	if(g.insufficient_material()) {
 		$.notify("insufficient material", "info");
 	}
-}
-
-function stToch(str) {
-	return str.substr(0,2) + '-' + str.substr(2);
+	g.in_threefold_repetition();
+	g.insufficient_material();
 }
 
 // Exposed functions.
-export function move() {
-
+export function move(m) {
+	game.move(m);
+	board.fen(game.fen());
 }
 
-export function fen() {
-
+export function fen(f) {
+	game.load(f);
+	board.fen(game.fen());
 }
 
 export function orientation() {
@@ -184,5 +192,40 @@ export function start() {
 export function flip() {
 
 }
+var $window = $(window);
 
+
+var boardZoom = setting('board.zoom') || 30;
+
+$window.on('resize', function() {
+	resizeBoard(boardZoom);
+});
+
+function resizeBoard(padding) {
+	var height = $window.height() - padding;
+	var width = height;
+	boardContainer.height(height);
+	boardContainer.width(width);
+	boardContainer.css({'margin-top': padding / 2});
+	console.log(padding);
+	board.resize();
+}
+
+resizeBoard(boardZoom);
+
+var slider2 = $('#c-102').get(0);
+if(slider2) {
+	noUiSlider.create(slider2, {
+	  start: boardZoom,
+	  range: {
+	    min: -50,
+	    max: 500
+	  }
+	}).on('update', function(val) {
+		var val = parseInt(val);
+		setting('board.zoom', val);
+		boardZoom = val;
+		resizeBoard(val);
+	});
+}
 

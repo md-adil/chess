@@ -3,14 +3,23 @@
 	margin-right: 5px;
 }
 
-.ww.panel {
-	width: 300px;
+.panel.window {
 	position: absolute;
+	z-index: 100;
 }
+
 .draggable.panel .panel-title {
 	cursor: default;
 }
 
-.panel.resizable {
+.window > .resizable {
+	position: relative;
+	height: auto;
+	display: inline-block;
+}
+
+.window > .resizable > .scrollable {
 	overflow: hidden;
+	overflow-y: auto;
+	height: 100%;
 }
