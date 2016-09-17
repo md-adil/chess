@@ -62,3 +62,8 @@ $('[data-toggle="window"]').click(function() {
 	var el = $(this).data('target');
 	$(el).fadeIn(100);
 });
+
+$('.window').on('mousedown', function() {
+	$(this).css('z-index', 99);
+	$('.window').not(this).css('z-index', 98);
+});

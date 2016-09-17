@@ -55911,6 +55911,11 @@ _lodash2.default.each((0, _tools.setting)('window'), function (set, id) {
 	(0, _jquery2.default)(el).fadeIn(100);
 });
 
+(0, _jquery2.default)('.window').on('mousedown', function () {
+	(0, _jquery2.default)(this).css('z-index', 99);
+	(0, _jquery2.default)('.window').not(this).css('z-index', 98);
+});
+
 },{"./tools":18,"jquery":9,"lodash":10}]},{},[16])
 
 
