@@ -1,8 +1,9 @@
 import $ from 'jquery';
 import {renderBoard} from './game';
-
-function connect(person) {
-	var socket = io.connect("http://localhost:3000");
+import * as game from './game';
+var socket;
+export function connect(person) {
+	socket = io.connect("http://localhost:3000");
 	bindConnections(socket);
 	renderBoard();
 	return socket;
@@ -13,7 +14,11 @@ function bindConnections(socket) {
 	socket.on('server/client/joining', joiningClient);
 	socket.on('server/client/joined', joinedClient);
 	socket.on('server/client/disconnect', disconnectClient);
+	socket.on('server/position/move', makeMove);
+}
 
+function makeMove(pos) {
+	game.move(pos);
 }
 
 function newClient() {
@@ -77,5 +82,24 @@ function nothing() {
 	return socket;
 }
 
+export function move(pos) {
+	socket.emit('client/position/move', {
+		pos: pos
+	});
+}
 
-export default connect;
+export function sayHello() {
+
+}
+
+export function makeConnection(connId, depth) {
+	if (connId == 'machine') {
+		socket.emit('client/connect/machine', {
+			depth: depth
+		});
+	} else {
+		socket.emit('client/request/connect', {
+			depth: depth
+		});
+	}
+}

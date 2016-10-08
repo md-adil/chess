@@ -1,5 +1,8 @@
 import $ from 'jquery';
 import renderBoard from './game';
+import * as connect from './connection';
+var socket;
+socket = connect.connect();
 
 var socket, connListEl, loginEl, board;
 connListEl = $('#connection-list');
@@ -42,3 +45,6 @@ function removeClient(person) {
 	}
 }
 
+$('#action-play-machine').click(function() {
+	connect.makeConnection('machine', $('#c-101').text());
+});

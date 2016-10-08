@@ -4,9 +4,10 @@ import chess from 'chess.js';
 import ChessBoard from 'chessboardjs';
 var noUiSlider = require('nouislider');
 import {setting} from './tools';
+import * as connect from './connection';
 
 var boardContainer = $('#board-container');
-
+var _turn = 'w';
 export var board;
 export var game;
 
@@ -19,24 +20,23 @@ board = ChessBoard('board', {
 	onDragStart: on_dragStart,
 	onMouseoverSquare: on_mouseoverSquare,
 	onMouseoutSquare: on_mouseoutSquare,
-		onSnapEnd: on_snapEnd
+	onSnapEnd: on_snapEnd
 });
 
+window.board = board;
+window.game = game;
+
 function myTurn(piece) {
-	// return piece[0] === turn;
+	return piece[0] === _turn;
 }
 
 function removeGreySquares() {
-	$('#board .square-55d63').css('background', '');
+	$('#board .square-55d63').removeClass('is-valid');
 }
 
 function greySquare(square) {
 	var squareEl = $('#board .square-' + square);
-	var background = '#a9a9a9';
-	if (squareEl.hasClass('black-3c85d') === true) {
-		background = '#696969';
-	}
-	squareEl.css('background', background);
+	squareEl.addClass('is-valid');
 }
 
 function validateMove(piece) {
@@ -79,18 +79,18 @@ function makeMove(source, target) {
 		promotion: 'q' // NOTE: always promote to a queen for example simplicity
 	});
 }
+var _currentSourceElement, _currentTargetElement;
 
 function on_Drop(source, target, piece, currentPos) {
 	console.log('current -pos', source);
 	if(!makeMove(source, target)) return 'snapback';
 	var fen = ChessBoard.objToFen(currentPos);
-	console.log("Current fen", fen);
+	console.log("Current fen", game.fen());
 	gameStatus(game);
-	app.socket.emit('moving', {
-		personId: app.currentClientId,
-		moves: source + target,
-		fen: game.fen()
-	});
+	_turn = game.turn();
+	_currentSourceElement = $('.square-' + source).get(0);
+	_currentTargetElement = $('.square-' + target).get(0);
+	_connect();
 }
 
 function on_mouseoverSquare(square, piece) {
@@ -115,6 +115,7 @@ function on_mouseoverSquare(square, piece) {
 
 
 export function renderBoard() {
+	return;
 	boardEl.show();
 	on_BoardInitialize()
 	
@@ -181,17 +182,15 @@ export function fen(f) {
 	board.fen(game.fen());
 }
 
-export function orientation() {
-
+export function orientation(o) {
+	board.orientation(o);
 }
 
 export function start() {
 
 }
 
-export function flip() {
 
-}
 var $window = $(window);
 
 
@@ -207,7 +206,6 @@ function resizeBoard(padding) {
 	boardContainer.height(height);
 	boardContainer.width(width);
 	boardContainer.css({'margin-top': padding / 2});
-	console.log(padding);
 	board.resize();
 }
 
@@ -228,4 +226,56 @@ if(slider2) {
 		resizeBoard(val);
 	});
 }
+
+function getOffset( el ) {
+    var rect = el.getBoundingClientRect();
+    return {
+        left: rect.left + window.pageXOffset,
+        top: rect.top + window.pageYOffset,
+        width: (rect.width || el.offsetWidth) / 2,
+        height: (rect.height || el.offsetHeight) / 2
+    };
+}
+var lineElement = $('<div />').css({
+	margin: 0,
+	padding: 0,
+	height: 0,
+	'line-height': 1,
+	position: 'absolute',
+	'border-top': '1px dotted green'
+}).appendTo('body');
+
+function _connect(div1, div2, color, thickness) { // draw a line connecting elements
+	div1 = div1 || _currentSourceElement;
+	div2 = div2 || _currentTargetElement;
+	if(!div1 || !div2) return;
+	color = color || 'green';
+	thickness = thickness || 5;
+    var off1 = getOffset(div1);
+    var off2 = getOffset(div2);
+    // bottom right
+    var x1 = off1.left + off1.width;
+    var y1 = off1.top + off1.height;
+    // top right
+    var x2 = off2.left + off2.width;
+    var y2 = off2.top + off2.height;
+    // distance
+    var length = Math.sqrt(((x2-x1) * (x2-x1)) + ((y2-y1) * (y2-y1)));
+    // center
+    var cx = ((x1 + x2) / 2) - (length / 2);
+    var cy = ((y1 + y2) / 2) - (thickness / 2);
+    // angle
+    var angle = Math.atan2((y1-y2),(x1-x2))*(180/Math.PI);
+    // make hr
+
+    lineElement.css({
+    	'border-top-width' : thickness,
+    	left: cx,
+    	top: cy,
+    	width: length,
+    	transform: `rotate(${angle}deg)`
+    });
+}
+
+connect.connect();
 

@@ -10735,6 +10735,10 @@ hr.on-light {
 .draggable.panel .panel-title {
   cursor: default; }
 
+.panel .list-group .list-group-item {
+  border-width: 1px 0;
+  border-radius: 0; }
+
 .window > .resizable {
   position: relative;
   height: auto;
@@ -10746,9 +10750,10 @@ hr.on-light {
   height: 100%; }
 
 .float-widget {
-  position: absolute;
+  position: fixed;
   bottom: 50px;
-  right: 50px; }
+  right: 50px;
+  z-index: 99; }
 
 .float-widget .btn.btn-action {
   border-radius: 90%;
@@ -10786,8 +10791,11 @@ hr.on-light {
 .in-check {
   box-shadow: inset 0 0 50px 0px #be0000; }
 
-.in-select {
-  box-shadow: inset 0 0 50px #001e00; }
+.is-valid {
+  box-shadow: inset 0 0 20px rgba(0, 117, 0, 0.59); }
+
+.board-b72b1 {
+  position: relative; }
 
 .overlay {
   position: fixed;

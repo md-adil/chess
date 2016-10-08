@@ -53999,9 +53999,28 @@ var _game = require('./game');
 
 var _game2 = _interopRequireDefault(_game);
 
+var _connection = require('./connection');
+
+var connect = _interopRequireWildcard(_connection);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function _interopRequireDefault(obj) {
 	return obj && obj.__esModule ? obj : { default: obj };
 }
+
+var socket;
+socket = connect.connect();
 
 var socket, connListEl, loginEl, board;
 connListEl = (0, _jquery2.default)('#connection-list');
@@ -54029,12 +54048,20 @@ function removeClient(person) {
 	}
 }
 
-},{"./game":14,"jquery":9}],13:[function(require,module,exports){
+(0, _jquery2.default)('#action-play-machine').click(function () {
+	connect.makeConnection('machine', (0, _jquery2.default)('#c-101').text());
+});
+
+},{"./connection":13,"./game":14,"jquery":9}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.connect = connect;
+exports.move = move;
+exports.sayHello = sayHello;
+exports.makeConnection = makeConnection;
 
 var _jquery = require('jquery');
 
@@ -54042,12 +54069,27 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _game = require('./game');
 
+var game = _interopRequireWildcard(_game);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function _interopRequireDefault(obj) {
 	return obj && obj.__esModule ? obj : { default: obj };
 }
 
+var socket;
 function connect(person) {
-	var socket = io.connect("http://localhost:3000");
+	socket = io.connect("http://localhost:3000");
 	bindConnections(socket);
 	(0, _game.renderBoard)();
 	return socket;
@@ -54058,6 +54100,11 @@ function bindConnections(socket) {
 	socket.on('server/client/joining', joiningClient);
 	socket.on('server/client/joined', joinedClient);
 	socket.on('server/client/disconnect', disconnectClient);
+	socket.on('server/position/move', makeMove);
+}
+
+function makeMove(pos) {
+	game.move(pos);
 }
 
 function newClient() {}
@@ -54112,7 +54159,25 @@ function nothing() {
 	return socket;
 }
 
-exports.default = connect;
+function move(pos) {
+	socket.emit('client/position/move', {
+		pos: pos
+	});
+}
+
+function sayHello() {}
+
+function makeConnection(connId, depth) {
+	if (connId == 'machine') {
+		socket.emit('client/connect/machine', {
+			depth: depth
+		});
+	} else {
+		socket.emit('client/request/connect', {
+			depth: depth
+		});
+	}
+}
 
 },{"./game":14,"jquery":9}],14:[function(require,module,exports){
 'use strict';
@@ -54126,7 +54191,6 @@ exports.move = move;
 exports.fen = fen;
 exports.orientation = orientation;
 exports.start = start;
-exports.flip = flip;
 
 var _jquery = require('jquery');
 
@@ -54142,6 +54206,22 @@ var _chessboardjs2 = _interopRequireDefault(_chessboardjs);
 
 var _tools = require('./tools');
 
+var _connection = require('./connection');
+
+var connect = _interopRequireWildcard(_connection);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function _interopRequireDefault(obj) {
 	return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -54151,7 +54231,7 @@ window.$ = _jquery2.default;
 var noUiSlider = require('nouislider');
 
 var boardContainer = (0, _jquery2.default)('#board-container');
-
+var _turn = 'w';
 var board = exports.board = undefined;
 var game = exports.game = undefined;
 
@@ -54167,21 +54247,20 @@ exports.board = board = (0, _chessboardjs2.default)('board', {
 	onSnapEnd: on_snapEnd
 });
 
+window.board = board;
+window.game = game;
+
 function myTurn(piece) {
-	// return piece[0] === turn;
+	return piece[0] === _turn;
 }
 
 function removeGreySquares() {
-	(0, _jquery2.default)('#board .square-55d63').css('background', '');
+	(0, _jquery2.default)('#board .square-55d63').removeClass('is-valid');
 }
 
 function greySquare(square) {
 	var squareEl = (0, _jquery2.default)('#board .square-' + square);
-	var background = '#a9a9a9';
-	if (squareEl.hasClass('black-3c85d') === true) {
-		background = '#696969';
-	}
-	squareEl.css('background', background);
+	squareEl.addClass('is-valid');
 }
 
 function validateMove(piece) {
@@ -54222,18 +54301,18 @@ function makeMove(source, target) {
 		promotion: 'q' // NOTE: always promote to a queen for example simplicity
 	});
 }
+var _currentSourceElement, _currentTargetElement;
 
 function on_Drop(source, target, piece, currentPos) {
 	console.log('current -pos', source);
 	if (!makeMove(source, target)) return 'snapback';
 	var fen = _chessboardjs2.default.objToFen(currentPos);
-	console.log("Current fen", fen);
+	console.log("Current fen", game.fen());
 	gameStatus(game);
-	app.socket.emit('moving', {
-		personId: app.currentClientId,
-		moves: source + target,
-		fen: game.fen()
-	});
+	_turn = game.turn();
+	_currentSourceElement = (0, _jquery2.default)('.square-' + source).get(0);
+	_currentTargetElement = (0, _jquery2.default)('.square-' + target).get(0);
+	_connect();
 }
 
 function on_mouseoverSquare(square, piece) {
@@ -54257,6 +54336,7 @@ function on_mouseoverSquare(square, piece) {
 }
 
 function renderBoard() {
+	return;
 	boardEl.show();
 	on_BoardInitialize();
 
@@ -54323,11 +54403,12 @@ function fen(f) {
 	board.fen(game.fen());
 }
 
-function orientation() {}
+function orientation(o) {
+	board.orientation(o);
+}
 
 function start() {}
 
-function flip() {}
 var $window = (0, _jquery2.default)(window);
 
 var boardZoom = (0, _tools.setting)('board.zoom') || 30;
@@ -54342,7 +54423,6 @@ function resizeBoard(padding) {
 	boardContainer.height(height);
 	boardContainer.width(width);
 	boardContainer.css({ 'margin-top': padding / 2 });
-	console.log(padding);
 	board.resize();
 }
 
@@ -54364,7 +54444,335 @@ if (slider2) {
 	});
 }
 
-},{"./tools":18,"chess.js":5,"chessboardjs":6,"jquery":9,"nouislider":11}],15:[function(require,module,exports){
+function getOffset(el) {
+	var rect = el.getBoundingClientRect();
+	return {
+		left: rect.left + window.pageXOffset,
+		top: rect.top + window.pageYOffset,
+		width: (rect.width || el.offsetWidth) / 2,
+		height: (rect.height || el.offsetHeight) / 2
+	};
+}
+var lineElement = (0, _jquery2.default)('<div />').css({
+	margin: 0,
+	padding: 0,
+	height: 0,
+	'line-height': 1,
+	position: 'absolute',
+	'border-top': '1px dotted green'
+}).appendTo('body');
+
+function _connect(div1, div2, color, thickness) {
+	// draw a line connecting elements
+	div1 = div1 || _currentSourceElement;
+	div2 = div2 || _currentTargetElement;
+	if (!div1 || !div2) return;
+	color = color || 'green';
+	thickness = thickness || 5;
+	var off1 = getOffset(div1);
+	var off2 = getOffset(div2);
+	// bottom right
+	var x1 = off1.left + off1.width;
+	var y1 = off1.top + off1.height;
+	// top right
+	var x2 = off2.left + off2.width;
+	var y2 = off2.top + off2.height;
+	// distance
+	var length = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+	// center
+	var cx = (x1 + x2) / 2 - length / 2;
+	var cy = (y1 + y2) / 2 - thickness / 2;
+	// angle
+	var angle = Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI);
+	// make hr
+
+	lineElement.css({
+		'border-top-width': thickness,
+		left: cx,
+		top: cy,
+		width: length,
+		transform: 'rotate(' + angle + 'deg)'
+	});
+}
+
+connect.connect();
+
+},{"./connection":13,"./tools":19,"chess.js":5,"chessboardjs":6,"jquery":9,"nouislider":11}],15:[function(require,module,exports){
+"use strict";
+
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+/**
+ * @author Szymon Działowski
+ * @homepage https://bitbucket.org/stopsopa/jquery.line
+ * @ver 1.0 2014-07-06
+ * @ver 1.1 2014-07-07 upgrades, corrections
+ * @ver 1.2 2015-05-01 drawing line by rad/ang and distance from point x and x, fix manual
+ */
+
+(function (factory) {
+    if (typeof define === "function" && define.amd) {
+
+        // AMD. Register as an anonymous module.
+        define(["jquery"], factory);
+    } else {
+
+        // Browser globals
+        factory(jQuery);
+    }
+})(function (name, pi) {
+    return function ($) {
+        function log(l) {
+            try {
+                console.log(l);
+            } catch (e) {}
+        };
+        function error(l) {
+            try {
+                console.error(l);
+            } catch (e) {}
+        };
+        function _thw(message) {
+            throw "plugin jQuery(...)." + name + "() : " + message;
+        };
+        function _a(a) {
+            return Array.prototype.slice.call(a, 0);
+        }
+        function isFunction(a) {
+            // taken from underscore.js
+            return typeof a == 'function' || false;
+        };
+        function isObject(obj) {
+            var type = typeof obj === "undefined" ? "undefined" : _typeof(obj);
+            return type === 'function' || type === 'object' && !!obj;
+        };
+        function angToRad(ang) {
+            return ang * (pi / 180);
+        }
+        function radToAng(rad) {
+            return rad * (180 / pi);
+        }
+        // calc distance between two points
+        function calcDistance(x1, y1, x2, y2) {
+            // http://www.gwycon.com/calculating-the-distance-between-two-pixels/
+            return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        }
+        // count angle in radians
+        function calcAngleRad(x1, y1, x2, y2) {
+            return Math.atan2(y2 - y1, x2 - x1);
+        }
+        // count angle in degrees
+        function calcAngle(x1, y1, x2, y2) {
+            var a = calcAngleRad(x1, y1, x2, y2) * (180 / pi);
+            return a < 0 ? a += 360 : a;
+        }
+        function calcXYOffsetByVectorAngleRad(rad, dis) {
+            return { // http://stackoverflow.com/a/10962780
+                x: Math.cos(rad) * dis,
+                y: Math.sin(rad) * dis
+            };
+        }
+        function calcXYOffsetByVectorAngle(ang, dis) {
+            return calcXYOffsetByVectorAngleRad(angToRad(ang), dis);
+        }
+        // count correction
+        function correct(x1, y1, x2, y2, o, ang) {
+            ang || (ang = calcAngle(x1, y1, x2, y2));
+
+            var hw = o.width / 2;
+            var hwo = hw; // originial
+
+            var sw = false;
+
+            if ($.isNumeric(o.correct)) {
+                var c = o.correct;
+                switch (true) {
+                    case o.correctpos == 'normal':
+                        hw += c;
+                        break;
+                    case o.correctpos == 'top' && ang > 90 && ang < 270:
+                        sw = true;
+                        c = -Math.abs(c);
+                        break;
+                    case o.correctpos == 'bottom' && (ang < 90 || ang > 270):
+                        sw = true;
+                        c = -Math.abs(c);
+                        break;
+                    case o.correctpos == 'left' && ang > 0 && ang < 180:
+                        sw = true;
+                        c = -Math.abs(c);
+                        break;
+                    case o.correctpos == 'right' && (ang < 0 || ang > 180):
+                        sw = true;
+                        c = -Math.abs(c);
+                        break;
+                }
+                hw += c;
+            }
+
+            var rad = calcAngleRad(x1, y1, x2, y2); // radians
+            var radminhalf = rad - pi / 2; // radians minus half radian
+
+            var c = {};
+            if (o.correct === false) {
+                c.x = c.y = c.oy = c.ox = 0;
+            } else {
+                c.y = Math.sin(radminhalf) * hw;
+                c.x = Math.cos(radminhalf) * hw;
+                c.oy = Math.sin(radminhalf) * hwo; // without correction
+                c.ox = Math.cos(radminhalf) * hwo; // without correction
+            }
+            c.ang = ang;
+            c.rad = rad;
+            c.ox2 = c.ox * 2;
+            c.oy2 = c.oy * 2;
+            c.x1 = x1;
+            c.y1 = y1;
+            c.x2 = x2;
+            c.y2 = y2;
+
+            if (sw) {
+                c.ax = c.x1 - c.ox2;
+                c.ay = c.y1 - c.oy2;
+
+                c.bx = c.ax + c.x;
+                c.by = c.ay + c.y;
+
+                c.cx = c.x2 + c.x;
+                c.cy = c.y2 + c.y;
+
+                c.dx = c.cx - c.ox2;
+                c.dy = c.cy - c.oy2;
+            } else {
+                c.bx = c.x1 + c.x;
+                c.by = c.y1 + c.y;
+
+                c.ax = c.bx - c.ox2;
+                c.ay = c.by - c.oy2;
+
+                c.dx = c.x2 + c.x;
+                c.dy = c.y2 + c.y;
+
+                c.cx = c.dx - c.ox2;
+                c.cy = c.dy - c.oy2;
+            }
+
+            return c;
+        }
+        /**
+         * @returns jQuery object representing line
+         * var linediv =                   $.line(x1, y1, x2, y2, opt, callback);
+         * var linediv = $('parent element').line(x1, y1, x2, y2, opt, callback);
+         * var linediv = $('parent element').line(x1, y1, {ang: 45, dis: 200}, opt, callback);
+         * var linediv =                   $.line(x1, y1, {ang: 45, dis: 200}, opt, callback);
+         */ //0   1   2   3   4    5          
+        $.fn[name] = function (x1, y1, x2, y2, opt, callback) {
+
+            if (isObject(x2)) {
+                var k = 0,
+                    a = _a(arguments);
+
+                if (typeof x2.ang != 'undefined') k = calcXYOffsetByVectorAngle(x2.ang, x2.dis);else if (typeof x2.rad != 'undefined') k = calcXYOffsetByVectorAngleRad(x2.rad, x2.dis);else _thw("Arguments incomplete: " + JSON.stringify(a));
+
+                a[5] = a[4];
+                a[4] = a[3];
+                a[2] = x1 + k.x;
+                a[3] = y1 + k.y;
+                log(a);
+
+                return $.fn[name].apply(this, a);
+            }
+
+            if (isFunction(opt)) {
+                callback = opt;
+            } else if (isFunction(callback)) {
+                opt = callback;
+            }
+
+            opt || (opt = {});
+
+            if ($(this).length > 1) throw "$(this) is more then one element";
+
+            var o = {
+                style: 'solid',
+                width: 1,
+                color: 'black',
+
+                cls: 'jqline',
+                id: false,
+                correct: true, // bool|int - corection of position, give integer to move 
+                correctpos: 'normal', // normal, top, bottom, left, right
+                css: {
+                    height: '0',
+                    zIndex: '999',
+                    zoom: 1
+                }
+            };
+
+            if (opt.css) {
+                $.extend(o.css, opt.css);
+                opt.css = o.css;
+            }
+
+            o = $.extend(true, o, opt || {});
+            o.create = opt.create ? $(opt.create) : $('<div></div>');
+            var ang = calcAngle(x1, y1, x2, y2); // degrees
+            var c = correct(x1, y1, x2, y2, o /* half of line width */, ang);
+            c.distance = calcDistance(x1, y1, x2, y2);
+
+            o.create.css({
+                borderTop: o.width + 'px ' + o.style + ' ' + o.color,
+                position: 'absolute',
+                width: c.distance + 'px',
+                '-webkit-transform': 'rotate(' + ang + 'deg)',
+                '-moz-transform': 'rotate(' + ang + 'deg)',
+                '-ms-transform': 'rotate(' + ang + 'deg)',
+                '-o-transform': 'rotate(' + ang + 'deg)',
+                transform: 'rotate(' + ang + 'deg)',
+
+                'transform-origin': '0 0',
+                '-ms-transform-origin': '0 0', /* IE 9 */
+                '-webkit-transform-origin': '0 0', /* Chrome, Safari, Opera */
+
+                left: x1 + c.x + 'px',
+                top: y1 + c.y + 'px'
+            }).css(o.css);
+
+            o.cls && o.create.addClass(o.cls);
+            o.id && o.create.attr('id', o.id);
+
+            o.create.appendTo(this);
+
+            isFunction(callback) && callback(o.create, o, c);
+
+            return o.create;
+        };
+        /**
+         * @returns jQuery object representing line
+         */
+        $[name] = function () {
+            var b = $('body');
+            return b[name].apply(b, arguments);
+        };
+
+        // expose tools to use outside
+        $[name].radToAng = radToAng;
+        $[name].angToRad = angToRad;
+        $[name].calcDistance = calcDistance;
+        $[name].calcAngleRad = calcAngleRad;
+        $[name].calcAngle = calcAngle;
+        $[name].calcXYOffsetByVectorAngle = calcXYOffsetByVectorAngle;
+        $[name].calcXYOffsetByVectorAngleRad = calcXYOffsetByVectorAngleRad;
+    };
+}('line', Math.PI)); // to change name of plugin simply change it in this place
+
+},{}],16:[function(require,module,exports){
 'use strict';
 
 /**
@@ -55093,7 +55501,7 @@ if (slider2) {
     }
 });
 
-},{"jquery":9}],16:[function(require,module,exports){
+},{"jquery":9}],17:[function(require,module,exports){
 'use strict';
 
 require('./app');
@@ -55108,6 +55516,7 @@ require('jquery-ui-dist/jquery-ui');
 require('bootstrap-material-design');
 require('jquery.cookie');
 var noUiSlider = require('nouislider');
+require('./jquery.line');
 
 require('./jquery.scrollbar');
 require('./widget-window');
@@ -55123,14 +55532,14 @@ if (slider) {
 		start: 4,
 		range: {
 			min: 1,
-			max: 12
+			max: 18
 		}
 	}).on('update', function (val) {
 		$('#c-101').text(parseInt(val));
 	});
 }
 
-},{"./app":12,"./jquery.scrollbar":15,"./notify":17,"./user-account":19,"./widget-window":20,"bootstrap-material-design":1,"bootstrap-sass":4,"jquery":9,"jquery-ui-dist/jquery-ui":7,"jquery.cookie":8,"nouislider":11}],17:[function(require,module,exports){
+},{"./app":12,"./jquery.line":15,"./jquery.scrollbar":16,"./notify":18,"./user-account":20,"./widget-window":21,"bootstrap-material-design":1,"bootstrap-sass":4,"jquery":9,"jquery-ui-dist/jquery-ui":7,"jquery.cookie":8,"nouislider":11}],18:[function(require,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -55765,7 +56174,7 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 	});
 });
 
-},{"jquery":9}],18:[function(require,module,exports){
+},{"jquery":9}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -55802,7 +56211,7 @@ function setting(key, val) {
 	});
 });
 
-},{"jquery":9,"jquery.cookie":8,"lodash":10}],19:[function(require,module,exports){
+},{"jquery":9,"jquery.cookie":8,"lodash":10}],20:[function(require,module,exports){
 'use strict';
 
 var _jquery = require('jquery');
@@ -55833,7 +56242,7 @@ function _interopRequireDefault(obj) {
 	});
 });
 
-},{"./connection":13,"jquery":9}],20:[function(require,module,exports){
+},{"./connection":13,"jquery":9}],21:[function(require,module,exports){
 'use strict';
 
 var _tools = require('./tools');
@@ -55916,7 +56325,7 @@ _lodash2.default.each((0, _tools.setting)('window'), function (set, id) {
 	(0, _jquery2.default)('.window').not(this).css('z-index', 98);
 });
 
-},{"./tools":18,"jquery":9,"lodash":10}]},{},[16])
+},{"./tools":19,"jquery":9,"lodash":10}]},{},[17])
 
 
 //# sourceMappingURL=main.js.map

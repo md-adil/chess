@@ -5,6 +5,7 @@ require('jquery-ui-dist/jquery-ui');
 require('bootstrap-material-design');
 require('jquery.cookie');
 var noUiSlider = require('nouislider');
+require('./jquery.line');
 
 require('./jquery.scrollbar');
 require('./widget-window');
@@ -23,7 +24,7 @@ if(slider) {
 	  start: 4,
 	  range: {
 	    min: 1,
-	    max: 12
+	    max: 18
 	  }
 	}).on('update', function(val) {
 		$('#c-101').text(parseInt(val));

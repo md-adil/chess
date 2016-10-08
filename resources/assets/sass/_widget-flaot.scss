@@ -1,7 +1,8 @@
 .float-widget {
-	position: absolute;
+	position: fixed;
 	bottom: 50px;
 	right: 50px;
+	z-index: 99;
 }
 .float-widget .btn.btn-action {
 	border-radius: 90%;
